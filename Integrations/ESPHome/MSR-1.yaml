@@ -499,7 +499,11 @@ sensor:
       id: ltr390ambientlight
     update_interval: 60s
 
-  
+  - platform: dallas
+    index: 0
+    name: "Dallas Temperature"
+dallas:
+  - pin: GPIO5
 
 light:
   - platform: neopixelbus
