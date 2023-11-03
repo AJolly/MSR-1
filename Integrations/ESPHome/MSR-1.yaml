@@ -257,6 +257,8 @@ number:
     icon: "mdi:arrow-collapse-right"
     entity_category: CONFIG
 
+
+
 # Buzzer
 output:
   - platform: ledc
@@ -496,6 +498,14 @@ button:
       name: "Restart Radar"
     query_params:
       name: query params
+  - platform:
+    name: "Play Rtttl Tone"
+    id: rttlTone
+
+    # Optional variables:
+    icon: "mdi:emoticon-outline"
+    on_press:
+      - rtttl.play: id(rtttl_song).state;
 
 
 switch:
@@ -510,6 +520,11 @@ text_sensor:
   - platform: ld2410
     version:
       name: "Radar Firmware Version"
+  - platform: template
+    name: "Rtttl Song"
+    id: rtttl_song
+  
+
 
 select:
   - platform: ld2410
