@@ -16,14 +16,13 @@ esphome:
   - priority: 900.0
     then:
       - lambda: |-
-          id(cpu_speed) = ESP.getCpuFreqMHz();
           id(radar_bluetooth).turn_off();
 
   project:
     name: "ApolloAutomation.MSR-1"
     version: "${version}"
 
-  min_version: 2023.8.1
+  min_version: 2023.11.1
 
 # Define Board
 esp32:
@@ -331,14 +330,9 @@ sensor:
       return (id(cpu_speed));
     entity_category: "diagnostic"
 
-  - platform: template
+  - platform: internal_temperature    
+    name: "ESP Temperature"
     id: sys_esp_temperature
-    name: ESP Temperature
-    lambda: return temperatureRead();
-    unit_of_measurement: °C
-    device_class: TEMPERATURE
-    update_interval: 60s
-
 
   - platform: uptime
     name: Uptime
