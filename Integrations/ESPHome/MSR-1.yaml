@@ -29,7 +29,7 @@ esphome:
 esp32:
   board: esp32-c3-devkitm-1
   framework:
-    type: arduino
+    type: esp-idf
   
 dashboard_import:
   package_import_url: github://ApolloAutomation/MSR-1/Integrations/ESPHome/MSR-1.yaml
@@ -73,18 +73,25 @@ api:
             password: !lambda 'return password;'
 
 logger:
+  hardware_uart: USB_SERIAL_JTAG
 
 ota:
   password: "apolloautomation"
   safe_mode: false
 
 wifi:
-
-  power_save_mode: none
-
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  on_connect:
+    - delay: 5s # Gives time for improv results to be transmitted
+    - ble.disable:
+  on_disconnect:
+    - ble.enable:
+  
+    # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
     ssid: "Apollo MSR1 Hotspot"
+
+esp32_improv:
+  authorizer: none
 
 captive_portal:
 
@@ -92,8 +99,6 @@ improv_serial:
 
 web_server:
   port: 80
-
-
 
 # Set Up Key Ports For Communication
 i2c:
@@ -462,19 +467,31 @@ sensor:
     update_interval: 60s
 
   
-light:
-  - platform: neopixelbus
-    type: GRB
-    variant: WS2812x
-    pin: GPIO3
-    num_leds: 1
-    name: "RGB Light"
-    method:
-      type: esp32_rmt
-      channel: 0
+light:  
+  - platform: esp32_rmt_led_strip
     id: rgb_light
-
-
+    name: "RGB Light"
+    disabled_by_default: true
+    entity_category: config
+    pin: GPIO3
+    default_transition_length: 0s
+    chipset: WS2812
+    num_leds: 1
+    rgb_order: grb
+    rmt_channel: 0
+    effects:
+      - pulse:
+          name: "Slow Pulse"
+          transition_length: 250ms
+          update_interval: 250ms
+          min_brightness: 50%
+          max_brightness: 100%
+      - pulse:
+          name: "Fast Pulse"
+          transition_length: 100ms
+          update_interval: 100ms
+          min_brightness: 50%
+          max_brightness: 100%
 
 time:
   - platform: sntp
