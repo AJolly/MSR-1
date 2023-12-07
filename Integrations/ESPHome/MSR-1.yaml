@@ -329,11 +329,7 @@ sensor:
     lambda: |-
       return (id(cpu_speed));
     entity_category: "diagnostic"
-
-  - platform: internal_temperature
-    id: sys_esp_temperature
-    name: ESP Temperature
-    
+   
   - platform: internal_temperature    
     name: "ESP Temperature"
     id: sys_esp_temperature
