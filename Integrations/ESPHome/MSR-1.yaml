@@ -1,9 +1,9 @@
 #Define Project
 substitutions:
   name: apollo-msr-1
-  version:  "23.11011"
+  version: "23.11011"
   device_description: ${name} made by Apollo Automation - version ${version}.
-  
+
 esphome:
   name: "${name}"
   friendly_name: Apollo Multisensor Mk1 (MSR-1)
@@ -13,10 +13,10 @@ esphome:
     board_build.flash_mode: dio
 
   on_boot:
-  - priority: 900.0
-    then:
-      - lambda: |-
-          id(radar_bluetooth).turn_off();
+    - priority: 900.0
+      then:
+        - lambda: |-
+            id(radar_bluetooth).turn_off();
 
   project:
     name: "ApolloAutomation.MSR-1"
@@ -29,11 +29,10 @@ esp32:
   board: esp32-c3-devkitm-1
   framework:
     type: esp-idf
-  
+
 dashboard_import:
   package_import_url: github://ApolloAutomation/MSR-1/Integrations/ESPHome/MSR-1.yaml
   import_full_config: false
-
 
 globals:
   - id: cpu_speed
@@ -44,14 +43,13 @@ globals:
 # Enable Home Assistant API
 # Also Add Buzzer Service Connection
 api:
-
   services:
     - service: play_buzzer
       variables:
         song_str: string
       then:
         - rtttl.play:
-            rtttl: !lambda 'return song_str;'
+            rtttl: !lambda "return song_str;"
 
     #Co2 Calibration Service
     - service: calibrate_co2_value
@@ -59,7 +57,7 @@ api:
         co2_ppm: float
       then:
         - scd4x.perform_forced_calibration:
-            value: !lambda 'return co2_ppm;'
+            value: !lambda "return co2_ppm;"
             id: scd40
 
     #Setting HLK Password
@@ -69,7 +67,7 @@ api:
       then:
         - bluetooth_password.set:
             id: ld2410_radar
-            password: !lambda 'return password;'
+            password: !lambda "return password;"
 
 logger:
   hardware_uart: USB_SERIAL_JTAG
@@ -84,7 +82,7 @@ wifi:
     - ble.disable:
   on_disconnect:
     - ble.enable:
-  
+
     # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
     ssid: "Apollo MSR1 Hotspot"
@@ -210,7 +208,7 @@ number:
     step: 10
     set_action:
       - scd4x.perform_forced_calibration:
-          value: !lambda 'return id(co2_calibration_number).state;'
+          value: !lambda "return id(co2_calibration_number).state;"
           id: scd40
 
   # Setting ending of zone 1 occupancy
@@ -267,9 +265,7 @@ output:
     pin: GPIO10
     id: buzzer
 rtttl:
- output: buzzer
-
-
+  output: buzzer
 
 binary_sensor:
   - platform: status
@@ -315,11 +311,8 @@ binary_sensor:
         return false;
       }
 
-    
-
 ld2410:
   id: ld2410_radar
-  
 
 sensor:
   - platform: template
@@ -329,8 +322,8 @@ sensor:
     lambda: |-
       return (id(cpu_speed));
     entity_category: "diagnostic"
-   
-  - platform: internal_temperature    
+
+  - platform: internal_temperature
     name: "ESP Temperature"
     id: sys_esp_temperature
 
@@ -364,7 +357,6 @@ sensor:
     measurement_mode: "periodic"
     i2c_id: bus_a
     ambient_pressure_compensation_source: bme280pressure
-
 
   - platform: ld2410
     moving_distance:
@@ -444,7 +436,6 @@ sensor:
     i2c_id: bus_a
     address: 0x76
 
-  
   - platform: ltr390
     uv:
       name: "LTR390 UV"
@@ -460,8 +451,7 @@ sensor:
       id: ltr390ambientlight
     update_interval: 60s
 
-  
-light:  
+light:
   - platform: esp32_rmt_led_strip
     id: rgb_light
     name: "RGB Light"
@@ -509,7 +499,6 @@ button:
     query_params:
       name: query params
 
-
 switch:
   - platform: ld2410
     bluetooth:
@@ -528,7 +517,6 @@ select:
     distance_resolution:
       name: "Radar Distance Resolution"
 
-
 interval:
   - interval: 1s
     then:
@@ -536,6 +524,5 @@ interval:
           condition:
             - binary_sensor.is_off: ink_ha_connected
           then:
-            - light.toggle: 
+            - light.toggle:
                 id: rgb_light
-
