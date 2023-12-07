@@ -455,8 +455,6 @@ light:
   - platform: esp32_rmt_led_strip
     id: rgb_light
     name: "RGB Light"
-    disabled_by_default: true
-    entity_category: config
     pin: GPIO3
     default_transition_length: 0s
     chipset: WS2812
