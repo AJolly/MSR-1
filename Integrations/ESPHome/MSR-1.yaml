@@ -521,6 +521,8 @@ interval:
       - if:
           condition:
             - binary_sensor.is_off: ink_ha_connected
+            - lambda: 'return id(sys_uptime).state < 30;'
+
           then:
             - light.toggle:
                 id: rgb_light
