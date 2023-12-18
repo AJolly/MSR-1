@@ -1,7 +1,7 @@
 #Define Project
 substitutions:
   name: apollo-msr-1
-  version:  "23.12111"
+  version:  "23.12171"
   device_description: ${name} made by Apollo Automation - version ${version}.
   
 esphome:
@@ -282,6 +282,13 @@ binary_sensor:
     has_target:
       name: Radar Target
       id: radar_has_target
+      on_state:
+        then:
+          - lambda: 
+              if (!id(radar_has_target).state) {
+                id(radar_detection_distance).publish_state(0);
+              }
+
     has_moving_target:
       name: Radar Moving Target
     has_still_target:
@@ -388,12 +395,6 @@ sensor:
     detection_distance:
       name: Radar Detection Distance
       id: radar_detection_distance
-      lambda: |-
-        if (id(radar_has_target).state) {
-          return id(moving_distance).state;
-        } else {
-          return 0;
-        }
     g0:
       move_energy:
         name: g0 move energy
