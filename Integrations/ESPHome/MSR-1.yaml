@@ -466,7 +466,7 @@ sensor:
       name: "LTR390 Light"
       id: ltr390light
     update_interval: 10s
-
+    resolution: 18
   
 light:
   - platform: neopixelbus
