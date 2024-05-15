@@ -462,9 +462,6 @@ sensor:
   
   - platform: ltr390
     id: ltr_390
-    uv_index:
-      name: "LTR390 UV Index"
-      id: ltr390uvindex
     light:
       name: "LTR390 Light"
       id: ltr390light
