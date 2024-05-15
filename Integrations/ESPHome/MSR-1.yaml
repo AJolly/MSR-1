@@ -226,7 +226,7 @@ number:
     update_interval: never
     optimistic: true
     restore_value: true
-    initial_value: 50
+    initial_value: 100
     icon: "mdi:arrow-collapse-right"
     entity_category: CONFIG
     unit_of_measurement: "cm"
@@ -243,7 +243,7 @@ number:
     update_interval: never
     optimistic: true
     restore_value: true
-    initial_value: 150
+    initial_value: 120
     icon: "mdi:arrow-collapse-right"
     entity_category: CONFIG
     unit_of_measurement: "cm"
@@ -260,7 +260,7 @@ number:
     update_interval: never
     optimistic: true
     restore_value: true
-    initial_value: 250
+    initial_value: 450
     icon: "mdi:arrow-collapse-right"
     entity_category: CONFIG
     unit_of_measurement: "cm"
