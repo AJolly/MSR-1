@@ -4,6 +4,9 @@ substitutions:
   version:  "24.3.26.1"
   device_description: ${name} made by Apollo Automation - version ${version}.
   
+preferences:
+  flash_write_interval: 1min
+
 esphome:
   name: "${name}"
   friendly_name: Apollo Multisensor Mk1 (MSR-1)
@@ -465,7 +468,7 @@ sensor:
     light:
       name: "LTR390 Light"
       id: ltr390light
-    update_interval: 5s
+    update_interval: 60s
 
   
 light:
