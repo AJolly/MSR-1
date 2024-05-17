@@ -33,10 +33,7 @@ esp32:
   framework:
     type: arduino
   
-dashboard_import:
-  package_import_url: github://AJolly/MSR-1/Integrations/ESPHome/MSR-1.yaml
-  import_full_config: true
-  ref: main
+
 
 
 globals:
